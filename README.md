@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# MiniJira — Issue Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A Kanban-style issue tracking app built with React JS, inspired by tools like Jira.
 
-## Available Scripts
+## Live Demo
+> Run locally with `npm start` — opens at `http://localhost:3000`
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Core
+- **Kanban Board** — Three columns: Todo, In Progress, Done
+- **Task Cards** — Each card shows title, priority (Low/Medium/High), and assignee
+- **Create Tasks** — Click "+ New Task" or "+ Add" in any column
+- **Edit Tasks** — Click "Edit" on any card to update details
+- **Delete Tasks** — Click "Del" to remove a task
+- **Title Validation** — Title is required; empty submissions are blocked
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Task Movement
+- **Drag & Drop** — Drag cards across columns or reorder within the same column
+- **Instant Updates** — Board reflects changes immediately after drop
 
-### `npm test`
+### Additional
+- **Filter by Priority** — Low / Medium / High / All
+- **Filter by Assignee** — Dynamic list based on existing tasks
+- **Persist State** — Board data saved to `localStorage`; survives page refresh
+- **Undo** — Reverts the most recent action (create, edit, delete, move)
+- **Toast Notifications** — Feedback shown for every user action
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Technology | Usage |
+|---|---|
+| React JS | UI components, state management |
+| JavaScript (ES6) | Application logic |
+| CSS (external file) | Styling, animations, transitions |
+| HTML5 Drag & Drop API | Card movement between columns |
+| localStorage | Persisting board state |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> No external UI libraries used — built with pure React + browser APIs.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# Clone the repo
+git clone https://github.com/your-username/mini-jira.git
+cd mini-jira
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Install dependencies
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Start development server
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Opens at `http://localhost:3000`
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+src/
+└── App.js       # All components: App, Column, Card, Modal, Toast
+└── App.css      # All styles, animations, responsive design
+```
 
-### Code Splitting
+> All components are in a single `App.js` file. Given the scope of the project, this keeps things simple and easy to navigate.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Approach
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **State Management** — Used React `useState` for all state (tasks, filters, drag, modal, history, toast). No external state library needed at this scale.
+- **Drag & Drop** — Implemented using the native HTML5 Drag & Drop API. Each card is `draggable`. Drop targets are the column container and individual card slots for precise reordering.
+- **Undo** — Maintained a history stack (last 20 snapshots). Every mutating action pushes the current state before modifying it.
+- **Persistence** — Tasks are serialized to JSON and saved to `localStorage` on every state change via `useEffect`.
+- **Filtering** — Filters are applied in-memory at render time, not stored separately. This means drag & drop works correctly even with active filters.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Trade-offs
 
-### Advanced Configuration
+| Decision | Reason |
+|---|---|
+| Single `App.js` file | Keeps the project simple for this scope; easier to review |
+| Native Drag & Drop API | No extra dependency; works well for a board this size |
+| No Redux / Zustand | Overkill for this scale; `useState` is sufficient |
+| No TypeScript | Kept JS for faster development within the time constraint |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## What I Would Improve With More Time
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **Split into separate component files** — `Card.js`, `Column.js`, `Modal.js`, `hooks/useTasks.js`
+- **Add TypeScript** — Better type safety and developer experience
+- **Smooth drag animations** — Use a library like `@dnd-kit` for better drag preview and animation
+- **Due dates** — Add deadline field with color-coded urgency
+- **Multi-select** — Bulk move or delete tasks
+- **Unit tests** — Test core logic (task creation, drag, undo, filters)
+- **Responsive design** — Better mobile layout for the Kanban board
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Author
+
+Built as part of a Frontend Internship assignment.
