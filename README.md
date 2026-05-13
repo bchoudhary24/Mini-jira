@@ -61,13 +61,18 @@ npm start
 Opens at `http://localhost:3000`
 
 ---
-
 ## Project Structure
 
-```
 src/
-└── App.js       # All components: App, Column, Card, Modal, Toast
-└── App.css      # All styles, animations, responsive design
+├── App.js                  # Main component — state, logic
+├── App.css                 # All styles and animations
+├── components/
+│   ├── Card.js             # Task card — drag, edit, delete
+│   ├── Column.js           # Kanban column — drop target
+│   ├── Modal.js            # Create/Edit task form
+│   └── Toast.js            # Notification component
+└── utils/
+    └── storage.js          # localStorage + seed data + uid helper
 ```
 
 > All components are in a single `App.js` file. Given the scope of the project, this keeps things simple and easy to navigate.
