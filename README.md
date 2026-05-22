@@ -75,8 +75,6 @@ src/
     └── storage.js          # localStorage + seed data + uid helper
 ```
 
-> All components are in a single `App.js` file. Given the scope of the project, this keeps things simple and easy to navigate.
-
 ---
 
 ## Approach
